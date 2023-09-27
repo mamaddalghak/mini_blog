@@ -1,115 +1,40 @@
-from human import human
-from post import post
-from like import like
-from comment import comment
+from Human import Human
+from Post import Post
+from Like import Like
+from Comment import Comment
+from show_post import show_post
+from show_comments import show_comments
+from post_function import post_function
+from comment_function import comment_function
 dicta = dict([])
 posts = []
 while True:
-    tah = False
-    z = str(input()) + " "
-    i = 0
-    while z[i] ==" ":
-        i = i + 1
-    r = i
-    if z[r:r + 2] == "sp":
-        z = str(input()) + " "
-        i = 0
-        while z[i] == " ":
-            i = i + 1
-        r = i
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        y = z[r + 2:o]
-        print(dicta[y].posts)
-    elif z[r:r + 2] == "sc":
-        z = str(input()) + " "
-        i = 0
-        while z[i] == " ":
-            i = i + 1
-        r = i
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        y = z[r + 2:o]
-        for j in posts:
-            if j.text == y:
-                print(j.comments)
-    elif z[r:r + 2] == "p:":
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        x = z[r + 2:o]
-        z = str(input()) + " "
-        i = 0
-        while z[i:i + 2] != "n:":
-            i = i + 1
-        r = i
-        tah = False
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        y = z[r + 2:o]
-        if y not in dicta.keys():
-            print(x)
-            dicta[y] = human(y, [x])
+    your_str = str(input()) + " "
+    cursor = 0
+    while your_str[cursor] == " ":
+        cursor = cursor + 1
+    cursor2 = cursor
+    if your_str[cursor2:cursor2 + 2] == "sp":
+        your_str = str(input()) + " "
+        show_post(your_str, dicta)
+    elif your_str[cursor2:cursor2 + 2] == "sc":
+        your_str = str(input()) + " "
+        show_comments(your_str, posts)
+    elif your_str[cursor2:cursor2 + 2] == "p:":
+        post = post_function(your_str)
+        your_str = str(input()) + " "
+        name = post_function(your_str)
+        if name not in dicta.keys():
+            dicta[name] = Human(name, [post])
         else:
-            print(x)
-            dicta[y].posts.append(x)
-        posts.append(post(x, y, {}))
-    elif z[r:r + 2] == "l:":
+            dicta[name].posts.append(post)
+        posts.append(Post(post, name, {}))
+    elif your_str[cursor2:cursor2 + 2] == "l:":
         pass
-    elif z[r:r + 2] == "c:":
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        c = z[r + 2:o]
-        z = str(input()) + " "
-        i = 0
-        while z[i] == " ":
-            i = i + 1
-        r = i
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        y = z[r + 2:o]
-        z = str(input()) + " "
-        i = 0
-        while z[i] == " ":
-            i = i + 1
-        r = i
-        while i < len(z):
-            if z[i] == " " and tah == False:
-                o = i
-                tah = True
-            elif z[i] != " ":
-                tah = False
-            i = i + 1
-        x = z[r + 2:o]
-        for j in posts:
-            if j.text == x:
-                j.comments[y] = c
+    elif your_str[cursor2:cursor2 + 2] == "c:":
+        comment = comment_function(your_str)
+        your_str = str(input()) + " "
+        name = comment_function(your_str)
+        your_str = str(input()) + " "
+        post = int(comment_function(your_str))
+        posts[post - 1].comments[name] = comment
